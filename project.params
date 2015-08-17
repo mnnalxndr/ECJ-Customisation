@@ -1,0 +1,57 @@
+
+parent.0 			= ../../../simple/simple.params
+
+pop.subpop.0.size 	= 100
+generations 		= 100
+
+pop.subpop.0.species 			= ec.vector.FloatVectorSpecies
+pop.subpop.0.species.ind		= ec.vector.FMSynthVectorIndividual
+pop.subpop.0.species.fitness 	= ec.simple.SimpleFitness
+
+# Genome specifics
+pop.subpop.0.species.genome-size 	= 13
+pop.subpop.0.species.crossover-type = one
+pop.subpop.0.species.mutation-type	= reset
+pop.subpop.0.species.mutation-prob	= 0.1
+
+# Segments
+pop.subpop.0.species.segment.0.start = 0
+pop.subpop.0.species.segment.1.start = 2
+pop.subpop.0.species.segment.2.start = 8
+
+pop.subpop.0.species.segment.0.min-gene = 0.5
+pop.subpop.0.species.segment.0.max-gene = 440
+pop.subpop.0.species.segment.1.min-gene = 1
+pop.subpop.0.species.segment.1.max-gene = 20000
+pop.subpop.0.species.segment.2.min-gene = 0.0
+pop.subpop.0.species.segment.2.max-gene = 10.0
+
+# Note that min-gene and max-gene are defined in the SPECIES, not in the INDIVIDUAL
+pop.subpop.0.species.min-gene.0	= 440
+pop.subpop.0.species.max-gene.0	= 440
+pop.subpop.0.species.min-gene.1	= 0.5
+pop.subpop.0.species.max-gene.1	= 0.5
+pop.subpop.0.species.min-gene.2 = 1
+pop.subpop.0.species.max-gene.2 = 32
+
+
+pop.subpop.0.species.min-gene	= 0
+pop.subpop.0.species.max-gene	= 1500
+
+
+pop.subpop.0.species.segment.1.mutation-tye = integer-reset
+
+# Use our own custom mutation class
+pop.subpop.0.species.pipe 								= ec.app.project.v02.src.SynthVectorMutationPipeline
+pop.subpop.0.species.pipe.source.0 						= ec.vector.breed.SynthVectorCrossoverPipeline
+
+# Toss the second child
+pop.subpop.pipe.source.0.toss 							= true
+pop.subpop.0.species.pipe.source.0.source.0 			= ec.select.FitProportionateSelection
+pop.subpop.0.species.pipe.source.0.source.1 			= ec.select.TournamentSelection
+pop.subpop.0.species.pipe.source.0.source.1.size 		= 5
+
+# Pick the worst individual in the tournament
+#pop.subpop.0.species.pipe.source.0.source.1.pick-worst 	= true
+
+eval.problem 											ec.app.project.v02.src.SynthMatcher
