@@ -6,54 +6,19 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.MixerMono;
 import com.jsyn.unitgen.SineOscillatorPhaseModulated;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by alexmann on 14/08/2015.
  */
 public class FMSynth extends SynthBase {
 
-    public FMSynth (double mainFrequency, double mainAmplitude, double preset,
-                    double operator2Freq, double operator3Freq, double operator4Freq, double operator5Freq, double operator6Freq,
-                    double operator2Amp, double operator3Amp, double operator4Amp, double operator5Amp, double operator6Amp) {
+    public FMSynth () {
 
-        mainFreq = mainFrequency;
-        mainAmp = mainAmplitude;
-        o2Freq = operator2Freq;
-        o2Amp = operator2Amp;
-        o3Freq = operator3Freq;
-        o3Amp = operator3Amp;
-        o4Freq = operator4Freq;
-        o4Amp = operator4Amp;
-        o5Freq = operator5Freq;
-        o5Amp = operator5Amp;
-        o6Freq = operator6Freq;
-        o6Amp = operator6Amp;
-        dx7Preset = (int) preset;
-        System.out.println("dx7Preset = " + dx7Preset);
-//        makeWaveform(frequency, mainAmp,
-//                operator2Freq, operator2Amp,
-//                operator3Freq, operator3Amp,
-//                operator4Freq, operator4Amp,
-//                operator5Freq, operator5Amp,
-//                operator6Freq, operator6Amp);
-
-
-
-
-
-    }
-    public float[] makeWaveform () {
-    //double mainFreq, double mainAmp,
-//                              double operator2Freq, double operator2Amp,
-//                              double operator3Freq, double operator3Amp,
-//                              double operator4Freq, double operator4Amp,
-//                              double operator5Freq, double operator5Amp,
-//                              double operator6Freq, double operator6Amp)
-
-        Synthesizer synth = JSyn.createSynthesizer();
-        MixerMono mixer = new MixerMono(6);
+        synth = JSyn.createSynthesizer();
+        mixer = new MixerMono(6);
         this.add(mixer);
 
-        boolean realtime = true;
 
         this.add(operator1 = new SineOscillatorPhaseModulated());
         this.add(operator2 = new SineOscillatorPhaseModulated());
@@ -61,24 +26,68 @@ public class FMSynth extends SynthBase {
         this.add(operator4 = new SineOscillatorPhaseModulated());
         this.add(operator5 = new SineOscillatorPhaseModulated());
         this.add(operator6 = new SineOscillatorPhaseModulated());
-        operator1.frequency.set(mainFreq);
-        operator1.amplitude.set(mainAmp);
-        operator2.frequency.set(o2Freq);
-        operator2.amplitude.set(o2Amp);
-        operator3.frequency.set(o3Freq);
-        operator3.amplitude.set(o3Amp);
-        operator4.frequency.set(o4Freq);
-        operator4.amplitude.set(o4Amp);
-        operator5.frequency.set(o5Freq);
-        operator5.amplitude.set(o5Amp);
-        operator6.frequency.set(o6Freq);
-        operator6.amplitude.set(o6Amp);
+
+    }
+    public float[] makeWaveform (double mainFrequency, double operator1Amp, double preset,
+                                 double operator2On, double operator3On, double operator4On, double operator5On, double operator6On,
+                                 double operator2Freq, double operator3Freq, double operator4Freq, double operator5Freq, double operator6Freq,
+                                 double operator2Amp, double operator3Amp, double operator4Amp, double operator5Amp, double operator6Amp) {
+
+        operator1.output.disconnectAll();
+        operator2.output.disconnectAll();
+        operator3.output.disconnectAll();
+        operator4.output.disconnectAll();
+        operator5.output.disconnectAll();
+        operator6.output.disconnectAll();
+        mixer.output.disconnectAll();
+
+        if (operator2On == 0)
+            operator2Amp = 0;
+        if (operator3On == 0)
+            operator3Amp = 0;
+        if (operator4On == 0)
+            operator4Amp = 0;
+        if (operator5On == 0)
+            operator5Amp = 0;
+        if (operator6On == 0)
+            operator6Amp = 0;
+
+        boolean integers = true;
+
+        operator1.frequency.set(mainFrequency);
+        operator1.amplitude.set(operator1Amp);
+        operator2.amplitude.set(operator2Amp);
+        operator3.amplitude.set(operator3Amp);
+        operator4.amplitude.set(operator4Amp);
+        operator5.amplitude.set(operator5Amp);
+        operator6.amplitude.set(operator6Amp);
+
+        if (integers) {
+            operator2.frequency.set(operator2Freq * mainFrequency);
+            operator3.frequency.set(operator3Freq * mainFrequency);
+            operator4.frequency.set(operator4Freq * mainFrequency);
+            operator5.frequency.set(operator5Freq * mainFrequency);
+            operator6.frequency.set(operator6Freq * mainFrequency);
+        }
+        else {
+
+            operator2.frequency.set(operator2Freq);
+            operator3.frequency.set(operator3Freq);
+            operator4.frequency.set(operator4Freq);
+            operator5.frequency.set(operator5Freq);
+            operator6.frequency.set(operator6Freq);
+        }
+
+        dx7Preset = (int) (preset + 1);
 
         switch (dx7Preset) {
             case 1:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator3.frequency.set(mainFrequency);
+
+                //
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -94,8 +103,9 @@ public class FMSynth extends SynthBase {
 
             case 2:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator2.modulation);
@@ -111,8 +121,9 @@ public class FMSynth extends SynthBase {
 
             case 3:
                 // Carriers other than operator 1 assigned note frequency
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 2);
 
                 // Modulation connections
                 operator3.output.connect(operator2.modulation);
@@ -128,8 +139,9 @@ public class FMSynth extends SynthBase {
 
             case 4:
                 // Carriers other than operator 1 assigned note frequency
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 2);
 
                 // Modulation connections
                 operator3.output.connect(operator2.modulation);
@@ -145,10 +157,11 @@ public class FMSynth extends SynthBase {
 
             case 5:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 3);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 3);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -164,10 +177,11 @@ public class FMSynth extends SynthBase {
 
             case 6:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 3);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 3);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -183,8 +197,9 @@ public class FMSynth extends SynthBase {
 
             case 7:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -200,8 +215,9 @@ public class FMSynth extends SynthBase {
 
             case 8:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -217,8 +233,9 @@ public class FMSynth extends SynthBase {
 
             case 9:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator2.modulation);
@@ -233,8 +250,9 @@ public class FMSynth extends SynthBase {
 
             case 10:
                 // Carriers other than operator 1 assigned note frequency
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 2);
 
                 // Modulation connections
                 operator3.output.connect(operator3.modulation);
@@ -250,8 +268,9 @@ public class FMSynth extends SynthBase {
 
             case 11:
                 // Carriers other than operator 1 assigned note frequency
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 2);
 
                 // Modulation connections
                 operator3.output.connect(operator3.modulation);
@@ -267,8 +286,9 @@ public class FMSynth extends SynthBase {
 
             case 12:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator2.modulation);
@@ -284,8 +304,9 @@ public class FMSynth extends SynthBase {
 
             case 13:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -297,12 +318,13 @@ public class FMSynth extends SynthBase {
                 // Connect carriers to mixer
                 operator1.output.connect(mixer.input);
                 operator3.output.connect(mixer.input);
-            break;
+                break;
 
             case 14:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -319,8 +341,9 @@ public class FMSynth extends SynthBase {
 
             case 15:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 2);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 2);
 
                 // Modulation connections
                 operator2.output.connect(operator2.modulation);
@@ -335,6 +358,8 @@ public class FMSynth extends SynthBase {
                 break;
 
             case 16:
+                operator1.amplitude.set(operator1Amp);
+
                 // Operator 1 only carrier, so straight to modulation connections
                 operator2.output.connect(operator1.modulation);
                 operator4.output.connect(operator3.modulation);
@@ -348,6 +373,8 @@ public class FMSynth extends SynthBase {
                 break;
 
             case 17:
+                operator1.amplitude.set(operator1Amp);
+
                 // Operator 1 only carrier, so straight to modulation connections
                 operator2.output.connect(operator2.modulation);
                 operator2.output.connect(operator1.modulation);
@@ -361,6 +388,8 @@ public class FMSynth extends SynthBase {
                 break;
 
             case 18:
+                operator1.amplitude.set(operator1Amp);
+
                 // Operator 1 only carrier, so straight to modulation connections
                 operator2.output.connect(operator1.modulation);
                 operator3.output.connect(operator3.modulation);
@@ -375,10 +404,11 @@ public class FMSynth extends SynthBase {
 
             case 19:
                 // Carriers other than operator 1 assigned note frequency
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 3);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 3);
 
                 // Modulation connections
                 operator3.output.connect(operator2.modulation);
@@ -396,10 +426,11 @@ public class FMSynth extends SynthBase {
 
             case 20:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 3);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 3);
 
                 // Modulation connections
                 operator3.output.connect(operator3.modulation);
@@ -416,12 +447,13 @@ public class FMSynth extends SynthBase {
 
             case 21:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 4);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 4);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 4);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 4);
 
                 // Modulation connections
                 operator3.output.connect(operator3.modulation);
@@ -439,12 +471,13 @@ public class FMSynth extends SynthBase {
 
             case 22:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 4);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 4);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 4);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 4);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -462,12 +495,13 @@ public class FMSynth extends SynthBase {
 
             case 23:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 4);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 4);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 4);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 4);
 
                 // Modulation connections
                 operator3.output.connect(operator2.modulation);
@@ -484,14 +518,15 @@ public class FMSynth extends SynthBase {
 
             case 24:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 5);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 5);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 5);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 5);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 5);
 
                 // Modulation connections
                 operator6.output.connect(operator6.modulation);
@@ -509,14 +544,15 @@ public class FMSynth extends SynthBase {
 
             case 25:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 5);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 5);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 5);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 5);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 5);
 
                 // Modulation connections
                 operator6.output.connect(operator6.modulation);
@@ -533,10 +569,11 @@ public class FMSynth extends SynthBase {
 
             case 26:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 3);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 3);
 
                 // Modulation connections
                 operator3.output.connect(operator2.modulation);
@@ -552,10 +589,11 @@ public class FMSynth extends SynthBase {
 
             case 27:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 3);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 3);
 
                 // Modulation connections
                 operator3.output.connect(operator3.modulation);
@@ -571,10 +609,11 @@ public class FMSynth extends SynthBase {
 
             case 28:
                 // Carriers other than operator 1 assigned note frequency
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator6.frequency.set(mainFreq);
-                operator6.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 3);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 3);
+                operator6.frequency.set(mainFrequency);
+                operator6.amplitude.set(operator6Amp / 3);
 
                 // Modulation connections
                 operator2.output.connect(operator1.modulation);
@@ -590,12 +629,13 @@ public class FMSynth extends SynthBase {
 
             case 29:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 4);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 4);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 4);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 4);
 
                 // Modulation connections
                 operator4.output.connect(operator3.modulation);
@@ -611,12 +651,13 @@ public class FMSynth extends SynthBase {
 
             case 30:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator6.frequency.set(mainFreq);
-                operator6.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 4);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 4);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 4);
+                operator6.frequency.set(mainFrequency);
+                operator6.amplitude.set(operator6Amp / 4);
 
                 // Modulation connections
                 operator5.output.connect(operator5.modulation);
@@ -632,14 +673,15 @@ public class FMSynth extends SynthBase {
 
             case 31:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 5);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 5);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 5);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 5);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 5);
 
                 // Modulation
                 operator6.output.connect(operator6.modulation);
@@ -655,16 +697,17 @@ public class FMSynth extends SynthBase {
 
             case 32:
                 // Carriers other than operator 1 assigned note frequency
-                operator2.frequency.set(mainFreq);
-                operator2.amplitude.set(mainAmp);
-                operator3.frequency.set(mainFreq);
-                operator3.amplitude.set(mainAmp);
-                operator4.frequency.set(mainFreq);
-                operator4.amplitude.set(mainAmp);
-                operator5.frequency.set(mainFreq);
-                operator5.amplitude.set(mainAmp);
-                operator6.frequency.set(mainFreq);
-                operator6.amplitude.set(mainAmp);
+                operator1.amplitude.set(operator1Amp / 6);
+                operator2.frequency.set(mainFrequency);
+                operator2.amplitude.set(operator2Amp / 6);
+                operator3.frequency.set(mainFrequency);
+                operator3.amplitude.set(operator3Amp / 6);
+                operator4.frequency.set(mainFrequency);
+                operator4.amplitude.set(operator4Amp / 6);
+                operator5.frequency.set(mainFrequency);
+                operator5.amplitude.set(operator5Amp / 6);
+                operator6.frequency.set(mainFrequency);
+                operator6.amplitude.set(operator6Amp / 6);
 
                 // Modulation connections
                 operator6.output.connect(operator6.modulation);
@@ -684,14 +727,13 @@ public class FMSynth extends SynthBase {
 
         }
 
-        return getWaveform(realtime, synth, mixer);
+        synth.add(this);
+
+        return getWaveform(synth, mixer);
 
     }
+    Synthesizer synth;
+    MixerMono mixer;
     int dx7Preset;
-    double o2Freq, o2Amp,
-            o3Freq, o3Amp,
-            o4Freq, o4Amp,
-            o5Freq, o5Amp,
-            o6Freq, o6Amp;
     SineOscillatorPhaseModulated operator1, operator2, operator3, operator4, operator5, operator6;
 }

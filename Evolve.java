@@ -6,6 +6,8 @@
 
 
 package ec;
+import ec.app.project.v02.src.FMSynth;
+import ec.app.project.v02.src.SubtractiveSynth;
 import ec.app.project.v02.src.TargetImport;
 import ec.util.*;
 import java.io.File;
@@ -685,12 +687,15 @@ public class Evolve
         // should we print the help message and quit?
         checkForHelp(args);
 
-            System.out.println("Take 3!");
 
-            File targetFile = new File("ec/app/project/v02/440Hz.wav");
 
-            lengthInS = TargetImport.getSoundLength(targetFile);
-            targetSamples = TargetImport.getTargetSamples(targetFile);
+        File targetFile = new File("ec/app/project/v02/Target Files/Sub Target 1.wav");
+
+        lengthInS = TargetImport.getSoundLength(targetFile);
+        targetSamples = TargetImport.getTargetSamples(targetFile);
+
+        fmSynth = new FMSynth();
+        subtractiveSynth = new SubtractiveSynth();
                 
         // if we're loading from checkpoint, let's finish out the most recent job
         state = possiblyRestoreFromCheckpoint(args);
@@ -718,6 +723,7 @@ public class Evolve
             state.run(EvolutionState.C_STARTED_FROM_CHECKPOINT);
             cleanup(state);
             }
+
 
         // A this point we've finished out any previously-checkpointed job.  If there was
         // one such job, we've updated the current job number (currentJob) to the next number.
@@ -794,6 +800,10 @@ public class Evolve
         System.exit(0);
         }
 
-        public static long lengthInS;
-        public static float[] targetSamples = null;
+
+        public static FMSynth fmSynth;
+        public static SubtractiveSynth subtractiveSynth;
+        public static float lengthInS;
+        public static float[] targetSamples;
+
     }

@@ -1,57 +1,313 @@
+# Parameters from ec.params base that do not need altering
+# ========================================================
+breedthreads            = 1
+evalthreads             = 1
 
-parent.0 			= ../../../simple/simple.params
+checkpoint              = false
+checkpoint-modulo       = 1
+checkpoint-prefix       = project
 
-pop.subpop.0.size 	= 100
-generations 		= 100
 
-pop.subpop.0.species 			= ec.vector.FloatVectorSpecies
-pop.subpop.0.species.ind		= ec.vector.FMSynthVectorIndividual
-pop.subpop.0.species.fitness 	= ec.simple.SimpleFitness
+
+# Parameters from simple.params base that do not need altering
+# ============================================================
+
+state                   = ec.simple.SimpleEvolutionState
+
+
+init                    = ec.simple.SimpleInitializer
+finish                  = ec.simple.SimpleFinisher
+exch                    = ec.simple.SimpleExchanger
+breed                   = ec.simple.SimpleBreeder
+eval                    = ec.simple.SimpleEvaluator
+stat                    = ec.simple.SimpleStatistics
+
+
+# Quit if an 'ideal' candidate solution found?
+quit-on-run-complete    = true
+
+
+# ec.Initializer
+pop                     = ec.Population
+
+
+# ec.Population
+pop.subpops             = 2
+pop.subpop.0            = ec.Subpopulation
+pop.subpop.1            = ec.Subpopulation
+
+
+# ec.Subpopulation
+ec.subpop.duplicate-retries = 10
+
+
+# ec.simple.SimpleBreeder
+# breed.elite.0 = 			10
+
+
+# ec.SimpleStatistics
+stat.file				$project.stat
+
+
+
+# Parameters to change for testing
+#===================================
+
+seed.0                  = 1
+
+ec.subpop.size          = 5
+#pop.subpop.0.size 	    = 5
+#pop.subpop.1.size      = 5
+
+generations 		    = 5
+
+
+### Vector breesing Selection types (FitProportionateSelection, BoltzmannSelection, GreedyOverselection, TournamentSelection)
+vector.xover.source.0                       = ec.select.FitProportionateSelection
+vector.xover.source.1                       = ec.select.FitProportionateSelection
+
+## If FitProportionateSelection, no other parameters are needed for selection
+
+## If BoltzmannSelection, starting-temperature and cooling-rate should be declared
+#select.boltzmann.starting-temperature      = 1000
+#select.boltzmann.cooling-rate              = 0.9
+
+## If GreedyOverSelection, proportion of best individuals 'top' and ratio at which the tp group are taken from 'gets'
+## must be declared
+#select.greedy.top                           = 0.25
+#select.greedy.gets                          = 0.70
+
+## If TournamentSelection, the tournament's size must be declared
+#select.tournament.size                     = 5
+
+## Different sources can be specified for different sides, for different subpops
+#pop.subpop.0.species.pipe.source.0.source.0 			= ec.select.FitProportionateSelection
+#pop.subpop.0.species.pipe.source.0.source.1 			= ec.select.FitProportionateSelection
+#pop.subpop.1.species.pipe.source.0.source.0 			= ec.select.FitProportionateSelection
+#pop.subpop.1.species.pipe.source.0.source.1 			= ec.select.FitProportionateSelection
+
+
+
+
+
+### Vector crossover type (one, two or any)
+vector.species.crossover-type   = two
+
+## If 'any', per gene probability must be declared
+#vector.species.crossover-prob  = 0.2
+
+
+### Vector mutation type (reset or Gauss?))
+vector.species.mutation-type    = reset
+vector.species.mutation-prob    = 0.1
+
+##If Gaussian,  st-dev must be declared
+#vector.species.mutation-type	= gauss
+#vector.species.mutation-stdev   = 0.1
+
+#==========================================
+
+
+
+
+
+
+
+ec.subpop.species               = ec.vector.FloatVectorSpecies
+#pop.subpop.0.species 			= ec.vector.FloatVectorSpecies
+#pop.subpop.1.species 			= ec.vector.FloatVectorSpecies
+
+vector.species.fitness       = ec.simple.SimpleFitness
+#pop.subpop.0.species.fitness 	= ec.simple.SimpleFitness
+#pop.subpop.1.species.fitness 	= ec.simple.SimpleFitness
+
+
+
+
+
+##### SubSynthIndividual Setup #####
+#
+pop.subpop.0.species.ind		= ec.vector.SubtractiveSynthVectorIndividual
+
+pop.subpop.0.species.min-gene	= -2
+pop.subpop.0.species.max-gene	= 10000
+
+# Genome Specifics
+pop.subpop.0.species.genome-size 	= 14
+pop.subpop.0.species.mutation-type	= integer-reset
+#pop.subpop.0.species.mutation-prob	= 0.1
+
+
+## Genes
+# Frequency
+pop.subpop.0.species.min-gene.0	 = 440
+pop.subpop.0.species.max-gene.0	 = 440
+# osc2On
+pop.subpop.0.species.min-gene.1	 = 0
+pop.subpop.0.species.max-gene.1	 = 1
+# osc3On
+pop.subpop.0.species.min-gene.2	 = 0
+pop.subpop.0.species.max-gene.2	 = 1
+# FilterType
+pop.subpop.0.species.min-gene.3	 = 0
+pop.subpop.0.species.max-gene.3	 = 1
+# osc1Shape
+pop.subpop.0.species.min-gene.4	 = 0
+pop.subpop.0.species.max-gene.4	 = 2
+# osc2Shape
+pop.subpop.0.species.min-gene.5	 = 0
+pop.subpop.0.species.max-gene.5	 = 2
+# osc3Shape
+pop.subpop.0.species.min-gene.6	 = 0
+pop.subpop.0.species.max-gene.6	 = 2
+# osc2Octave
+pop.subpop.0.species.min-gene.7	 = -2
+pop.subpop.0.species.max-gene.7	 = 2
+# osc3Octave
+pop.subpop.0.species.min-gene.8	 = -2
+pop.subpop.0.species.max-gene.8	 = 2
+# Filter Frequency
+pop.subpop.0.species.min-gene.9	 = 440
+pop.subpop.0.species.max-gene.9	 = 10000
+# Filter Q
+pop.subpop.0.species.min-gene.10 = 0.1
+pop.subpop.0.species.max-gene.10 = 6.0
+# osc1amp
+pop.subpop.0.species.min-gene.11 = 0.0
+pop.subpop.0.species.max-gene.11 = 0.33
+# osc2amp
+pop.subpop.0.species.min-gene.12 = 0.0
+pop.subpop.0.species.max-gene.12 = 0.33
+# osc3amp
+pop.subpop.0.species.min-gene.13 = 0.0
+pop.subpop.0.species.max-gene.13 = 0.33
+
+pop.subpop.0.species.mutation-type.10 = reset
+pop.subpop.0.species.mutation-type.11 = reset
+pop.subpop.0.species.mutation-type.12 = reset
+pop.subpop.0.species.mutation-type.13 = reset
+
+
+
+
+
+
+
+
+##### FMSynthInvdividual setup #####
+#
+pop.subpop.1.species.ind		= ec.vector.FMSynthVectorIndividual
 
 # Genome specifics
-pop.subpop.0.species.genome-size 	= 13
-pop.subpop.0.species.crossover-type = one
-pop.subpop.0.species.mutation-type	= reset
-pop.subpop.0.species.mutation-prob	= 0.1
+pop.subpop.1.species.genome-size 	= 18
+#pop.subpop.1.species.mutation-type	= reset
+#pop.subpop.1.species.mutation-prob	= 0.1
 
-# Segments
-pop.subpop.0.species.segment.0.start = 0
-pop.subpop.0.species.segment.1.start = 2
-pop.subpop.0.species.segment.2.start = 8
+pop.subpop.1.species.min-gene	= 0.0
+pop.subpop.1.species.max-gene	= 20000
 
-pop.subpop.0.species.segment.0.min-gene = 0.5
-pop.subpop.0.species.segment.0.max-gene = 440
-pop.subpop.0.species.segment.1.min-gene = 1
-pop.subpop.0.species.segment.1.max-gene = 20000
-pop.subpop.0.species.segment.2.min-gene = 0.0
-pop.subpop.0.species.segment.2.max-gene = 10.0
+## Genes
+# Main Frequency
+pop.subpop.1.species.min-gene.0	 = 440
+pop.subpop.1.species.max-gene.0	 = 440
+# Main amplitude
+pop.subpop.1.species.min-gene.1	 = 0.0
+pop.subpop.1.species.max-gene.1	 = 1.0
+# DX7 Preset
+pop.subpop.1.species.min-gene.2	 = 0
+pop.subpop.1.species.max-gene.2	 = 31
 
-# Note that min-gene and max-gene are defined in the SPECIES, not in the INDIVIDUAL
-pop.subpop.0.species.min-gene.0	= 440
-pop.subpop.0.species.max-gene.0	= 440
-pop.subpop.0.species.min-gene.1	= 0.5
-pop.subpop.0.species.max-gene.1	= 0.5
-pop.subpop.0.species.min-gene.2 = 1
-pop.subpop.0.species.max-gene.2 = 32
+# Operator 2 On/Off Binary
+pop.subpop.1.species.min-gene.3	 = 0
+pop.subpop.1.species.max-gene.3	 = 1
+# Operator 3 On/Off Binary
+pop.subpop.1.species.min-gene.4	 = 0
+pop.subpop.1.species.max-gene.4	 = 1
+# Operator 4 On/Off Binary
+pop.subpop.1.species.min-gene.5	 = 0
+pop.subpop.1.species.max-gene.5	 = 1
+# Operator 5 On/Off Binary
+pop.subpop.1.species.min-gene.6	 = 0
+pop.subpop.1.species.max-gene.6	 = 1
+# Operator 6 On/Off Binary
+pop.subpop.1.species.min-gene.7	 = 0
+pop.subpop.1.species.max-gene.7	 = 1
 
 
-pop.subpop.0.species.min-gene	= 0
-pop.subpop.0.species.max-gene	= 1500
+# Operator 2 Frequency
+pop.subpop.1.species.min-gene.8	    = 1
+pop.subpop.1.species.max-gene.8	    = 5
+# Operator 3 Frequency
+pop.subpop.1.species.min-gene.9	     = 1
+pop.subpop.1.species.max-gene.9 	 = 5
+# Operator 4 Frequency
+pop.subpop.1.species.min-gene.10	 = 1
+pop.subpop.1.species.max-gene.10	 = 5
+# Operator 5 Frequency
+pop.subpop.1.species.min-gene.11	 = 1
+pop.subpop.1.species.max-gene.11	 = 5
+# Operator 6 Frequency
+pop.subpop.1.species.min-gene.12     = 1
+pop.subpop.1.species.max-gene.12	 = 5
 
 
-pop.subpop.0.species.segment.1.mutation-tye = integer-reset
 
-# Use our own custom mutation class
-pop.subpop.0.species.pipe 								= ec.app.project.v02.src.SynthVectorMutationPipeline
+# Operator 2 Amplitude
+pop.subpop.1.species.min-gene.13 = 0.0
+pop.subpop.1.species.max-gene.13 = 5.0
+# Operator 3 Amplitude
+pop.subpop.1.species.min-gene.14 = 0.0
+pop.subpop.1.species.max-gene.14 = 5.0
+# Operator 4 Amplitude
+pop.subpop.1.species.min-gene.15 = 0.0
+pop.subpop.1.species.max-gene.15 = 5.0
+# Operator 5 Amplitude
+pop.subpop.1.species.min-gene.16 = 0.0
+pop.subpop.1.species.max-gene.16 = 5.0
+# Operator 6 Amplitude
+pop.subpop.1.species.min-gene.17 = 0.0
+pop.subpop.1.species.max-gene.17 = 5.0
+
+pop.subpop.1.species.mutation-type.0    = integer-reset
+pop.subpop.1.species.mutation-type.2    = integer-reset
+pop.subpop.1.species.mutation-type.3    = integer-reset
+pop.subpop.1.species.mutation-type.4    = integer-reset
+pop.subpop.1.species.mutation-type.5    = integer-reset
+pop.subpop.1.species.mutation-type.6    = integer-reset
+pop.subpop.1.species.mutation-type.7    = integer-reset
+pop.subpop.1.species.mutation-type.8    = integer-reset
+pop.subpop.1.species.mutation-type.9    = integer-reset
+pop.subpop.1.species.mutation-type.10   = integer-reset
+pop.subpop.1.species.mutation-type.11   = integer-reset
+pop.subpop.1.species.mutation-type.12   = integer-reset
+
+
+# Initialise bespoke Crossover and Mutation classes (Mutation used to be in ec.app.project.v02.src.)
+pop.subpop.0.species.pipe 								= ec.vector.breed.SynthVectorMutationPipeline
 pop.subpop.0.species.pipe.source.0 						= ec.vector.breed.SynthVectorCrossoverPipeline
 
-# Toss the second child
-pop.subpop.pipe.source.0.toss 							= true
-pop.subpop.0.species.pipe.source.0.source.0 			= ec.select.FitProportionateSelection
-pop.subpop.0.species.pipe.source.0.source.1 			= ec.select.TournamentSelection
-pop.subpop.0.species.pipe.source.0.source.1.size 		= 5
+pop.subpop.1.species.pipe 								= ec.vector.breed.SynthVectorMutationPipeline
+pop.subpop.1.species.pipe.source.0 						= ec.vector.breed.SynthVectorCrossoverPipeline
 
-# Pick the worst individual in the tournament
-#pop.subpop.0.species.pipe.source.0.source.1.pick-worst 	= true
+
+
+# Set up the Internal Island Model
+exch = ec.exchange.InterPopulationExchange
+
+exch.select = ec.select.RandomSelection
+
+exch.size                       = 1
+exch.start                      = 0
+exch.mod                        = 100000
+
+exch.subpop.0.num-dest          = 0
+exch.subpop.0.dest.0            = 0
+exch.subpop.1.num-dest          = 0
+exch.subpop.1.dest.0            = 1
+
+
 
 eval.problem 											ec.app.project.v02.src.SynthMatcher
+
+
+

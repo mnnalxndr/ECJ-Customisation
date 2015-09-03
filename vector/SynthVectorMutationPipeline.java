@@ -1,10 +1,10 @@
-package ec.app.project.v02.src;
+package ec.vector.breed;
 
 import ec.BreedingPipeline;
 import ec.EvolutionState;
+import ec.Evolve;
 import ec.Individual;
-import ec.vector.FMSynthVectorIndividual;
-import ec.vector.VectorIndividual;
+import ec.vector.*;
 import ec.vector.breed.VectorMutationPipeline;
 
 /**
@@ -42,10 +42,20 @@ public class SynthVectorMutationPipeline extends VectorMutationPipeline {
             // Addition to class
             if (inds[q] instanceof FMSynthVectorIndividual) {
                 FMSynthVectorIndividual ind = (FMSynthVectorIndividual) inds[q];
-                FMSynth fmSynth = new FMSynth(ind.genome[0], ind.genome[1], ind.genome[2], ind.genome[3], ind.genome[4],
+                System.out.println("Mutation FM Creation");
+                ((FMSynthVectorIndividual) inds[q]).candidateSamples = Evolve.fmSynth.makeWaveform(ind.genome[0], ind.genome[1], ind.genome[2],
+                        ind.genome[3], ind.genome[4], ind.genome[5], ind.genome[6], ind.genome[7],
+                        ind.genome[8], ind.genome[9], ind.genome[10], ind.genome[11], ind.genome[12],
+                        ind.genome[13], ind.genome[14], ind.genome[15], ind.genome[16], ind.genome[17]);
+            }
+            else if (inds[q] instanceof ec.vector.SubtractiveSynthVectorIndividual) {
+                SubtractiveSynthVectorIndividual ind = (SubtractiveSynthVectorIndividual) inds[q];
+                System.out.println("Mutation SubSynth Creation");
+//                SubtractiveSynth subtractiveSynth = new SubtractiveSynth();
+                ((SubtractiveSynthVectorIndividual) inds[q]).candidateSamples = Evolve.subtractiveSynth.makeWaveform(ind.genome[0], ind.genome[1], ind.genome[2], ind.genome[3], ind.genome[4],
                         ind.genome[5], ind.genome[6], ind.genome[7], ind.genome[8],
-                        ind.genome[9], ind.genome[10], ind.genome[11], ind.genome[12]);
-                ((FMSynthVectorIndividual) inds[q]).candidateSamples = fmSynth.makeWaveform();
+                        ind.genome[9], ind.genome[10], ind.genome[11], ind.genome[12], ind.genome[13]);
+//                subtractiveSynth = null;
             }
 
 

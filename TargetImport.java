@@ -12,10 +12,10 @@ import java.io.*;
 /**
  * Created by alexmann on 06/07/2015.
  */
-public class TargetImport extends Thread {
+public class TargetImport {
 
 
-    public static long getSoundLength(File targetFile) {
+    public static float getSoundLength(File targetFile) {
 
         AudioInputStream audioInputStream = null;
         try {
@@ -27,15 +27,11 @@ public class TargetImport extends Thread {
         }
         AudioFormat format = audioInputStream.getFormat();
         long audioFileLength = targetFile.length();
-        System.out.println(audioFileLength);
         int frameSize = format.getFrameSize();
         float frameRate = format.getFrameRate();
-        float durationInSeconds = (float) Math.floor((audioFileLength / (frameSize * frameRate)));
-        long durationInMillieconds = (long) (durationInSeconds);
+        float durationInSeconds = (audioFileLength  / (frameSize * frameRate));
 
-        System.out.println("Length = " + durationInSeconds);
-
-        return durationInMillieconds;
+        return durationInSeconds;
     }
 
     public static float[] getTargetSamples(File targetFile) {

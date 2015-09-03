@@ -2,9 +2,10 @@ package ec.vector.breed;
 
 import ec.BreedingPipeline;
 import ec.EvolutionState;
+import ec.Evolve;
 import ec.Individual;
-import ec.app.project.v02.src.FMSynth;
 import ec.vector.FMSynthVectorIndividual;
+import ec.vector.SubtractiveSynthVectorIndividual;
 import ec.vector.VectorIndividual;
 
 /**
@@ -63,13 +64,20 @@ public class SynthVectorCrossoverPipeline extends VectorCrossoverPipeline {
             parents[0].defaultCrossover(state,thread,parents[1]);
 
             // Addition to class
-            FMSynthVectorIndividual parent;
+
             if (parents[0] instanceof FMSynthVectorIndividual) {
-                parent = (FMSynthVectorIndividual) parents[0];
-                FMSynth fmSynth = new FMSynth(parent.genome[0], parent.genome[1], parent.genome[2], parent.genome[3], parent.genome[4],
+                FMSynthVectorIndividual parent = (FMSynthVectorIndividual) parents[0];
+                System.out.println("Crossover Parent 1 FM Creation");
+                ((FMSynthVectorIndividual) parents[0]).candidateSamples = Evolve.fmSynth.makeWaveform(parent.genome[0], parent.genome[1], parent.genome[2],
+                        parent.genome[3], parent.genome[4], parent.genome[5], parent.genome[6], parent.genome[7],
+                        parent.genome[8], parent.genome[9], parent.genome[10], parent.genome[11], parent.genome[12],
+                        parent.genome[13], parent.genome[14], parent.genome[15], parent.genome[16], parent.genome[17]);
+            } else if (parents[0] instanceof SubtractiveSynthVectorIndividual) {
+                SubtractiveSynthVectorIndividual parent = (SubtractiveSynthVectorIndividual) parents[0];
+                System.out.println("Crossover Parent 1 SubSynth Creation");
+                ((SubtractiveSynthVectorIndividual) parents[1]).candidateSamples = Evolve.subtractiveSynth.makeWaveform(parent.genome[0], parent.genome[1], parent.genome[2], parent.genome[3], parent.genome[4],
                         parent.genome[5], parent.genome[6], parent.genome[7], parent.genome[8],
-                        parent.genome[9], parent.genome[10], parent.genome[11], parent.genome[12]);
-                ((FMSynthVectorIndividual) parents[0]).candidateSamples = fmSynth.makeWaveform();
+                        parent.genome[9], parent.genome[10], parent.genome[11], parent.genome[12], parent.genome[13]);
             }
 
             parents[0].evaluated=false;
@@ -80,13 +88,23 @@ public class SynthVectorCrossoverPipeline extends VectorCrossoverPipeline {
             q++;
             if (q<n+start && !tossSecondParent)
             {
+                // Second addition to the class
                 if (parents[1] instanceof FMSynthVectorIndividual) {
-                    parent = (FMSynthVectorIndividual) parents[1];
-                    FMSynth fmSynth = new FMSynth(parent.genome[0], parent.genome[1], parent.genome[2], parent.genome[3], parent.genome[4],
-                            parent.genome[5], parent.genome[6], parent.genome[7], parent.genome[8],
-                            parent.genome[9], parent.genome[10], parent.genome[11], parent.genome[12]);
-                    ((FMSynthVectorIndividual) parents[1]).candidateSamples = fmSynth.makeWaveform();
+                    FMSynthVectorIndividual parent = (FMSynthVectorIndividual) parents[1];
+                    System.out.println("Crossover Parent 2 FM Creation");
+                    ((FMSynthVectorIndividual) parents[1]).candidateSamples = Evolve.fmSynth.makeWaveform(parent.genome[0], parent.genome[1], parent.genome[2],
+                            parent.genome[3], parent.genome[4], parent.genome[5], parent.genome[6], parent.genome[7],
+                            parent.genome[8], parent.genome[9], parent.genome[10], parent.genome[11], parent.genome[12],
+                            parent.genome[13], parent.genome[14], parent.genome[15], parent.genome[16], parent.genome[17]);
                 }
+                else if (parents[1] instanceof SubtractiveSynthVectorIndividual) {
+                    SubtractiveSynthVectorIndividual parent = (SubtractiveSynthVectorIndividual) parents[1];
+                    System.out.println("Crossover Parent 2 SubSynth Creation");
+                    ((SubtractiveSynthVectorIndividual) parents[1]).candidateSamples = Evolve.subtractiveSynth.makeWaveform(parent.genome[0], parent.genome[1], parent.genome[2], parent.genome[3], parent.genome[4],
+                            parent.genome[5], parent.genome[6], parent.genome[7], parent.genome[8],
+                            parent.genome[9], parent.genome[10], parent.genome[11], parent.genome[12], parent.genome[13]);
+                }
+
                 inds[q] = parents[1];
                 q++;
             }

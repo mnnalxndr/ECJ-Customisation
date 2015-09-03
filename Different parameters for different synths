@@ -1,0 +1,216 @@
+Different parameters for different synths
+
+
+
+
+##### SubSynth Business #####
+#
+pop.subpop.0.species.ind		= ec.vector.SubtractiveSynthVectorIndividual
+
+pop.subpop.0.species.min-gene	= -2
+pop.subpop.0.species.max-gene	= 10000
+
+# Genome Specifics
+pop.subpop.0.species.genome-size 	= 14
+pop.subpop.0.species.crossover-type = one
+pop.subpop.0.species.mutation-type	= integer-reset
+pop.subpop.0.species.mutation-prob	= 0.1
+
+# Segments
+#pop.subpop.0.species.segment.0.start = 1
+#pop.subpop.0.species.segment.1.start = 4
+#pop.subpop.0.species.segment.2.start = 7
+#pop.subpop.0.species.segment.3.start = 9
+#pop.subpop.0.species.segment.4.start = 11
+
+## Segmet mins & maxs
+#pop.subpop.0.species.segment.0.min-gene = 0
+#pop.subpop.0.species.segment.0.max-gene = 1
+#pop.subpop.0.species.segment.1.min-gene = 0
+#pop.subpop.0.species.segment.1.max-gene = 2
+#pop.subpop.0.species.segment.2.min-gene = -2
+#pop.subpop.0.species.segment.2.max-gene = 2
+#pop.subpop.0.species.segment.4.min-gene = 0.0
+#pop.subpop.0.species.segment.4.max-gene = 0.5
+
+#pop.subpop.0.species.segment.9.mutation-type  = double-reset
+#pop.subpop.0.species.segment.10.mutation-type = double-reset
+#pop.subpop.0.species.segment.11.mutation-type = double-reset
+#pop.subpop.0.species.segment.12.mutation-type = double-reset
+
+## Genes
+# Frequency
+pop.subpop.0.species.min-gene.0	 = 440
+pop.subpop.0.species.max-gene.0	 = 440
+# osc2On
+pop.subpop.0.species.min-gene.1	 = 0
+pop.subpop.0.species.max-gene.1	 = 1
+# osc3On
+pop.subpop.0.species.min-gene.2	 = 0
+pop.subpop.0.species.max-gene.2	 = 1
+# FilterType
+pop.subpop.0.species.min-gene.3	 = 0
+pop.subpop.0.species.max-gene.3	 = 1
+# osc1Shape
+pop.subpop.0.species.min-gene.4	 = 0
+pop.subpop.0.species.max-gene.4	 = 2
+# osc2Shape
+pop.subpop.0.species.min-gene.5	 = 0
+pop.subpop.0.species.max-gene.5	 = 2
+# osc3Shape
+pop.subpop.0.species.min-gene.6	 = 0
+pop.subpop.0.species.max-gene.6	 = 2
+# osc2Octave
+pop.subpop.0.species.min-gene.7	 = -2
+pop.subpop.0.species.max-gene.7	 = 2
+# osc3Octave
+pop.subpop.0.species.min-gene.8	 = -2
+pop.subpop.0.species.max-gene.8	 = 2
+# Filter Frequency
+pop.subpop.0.species.min-gene.9	 = 440
+pop.subpop.0.species.max-gene.9	 = 10000
+# Filter Q
+pop.subpop.0.species.min-gene.10 = 0.1
+pop.subpop.0.species.max-gene.10 = 6.0
+# osc1amp
+pop.subpop.0.species.min-gene.11 = 0.0
+pop.subpop.0.species.max-gene.11 = 0.33
+# osc2amp
+pop.subpop.0.species.min-gene.12 = 0.0
+pop.subpop.0.species.max-gene.12 = 0.33
+# osc3amp
+pop.subpop.0.species.min-gene.13 = 0.0
+pop.subpop.0.species.max-gene.13 = 0.33
+
+pop.subpop.0.species.mutation-type.10 = reset
+pop.subpop.0.species.mutation-type.11 = reset
+pop.subpop.0.species.mutation-type.12 = reset
+pop.subpop.0.species.mutation-type.13 = reset
+
+
+
+
+
+
+
+
+##### FMSynth business
+#
+pop.subpop.1.species.ind		= ec.vector.FMSynthVectorIndividual
+
+# Genome specifics
+pop.subpop.1.species.genome-size 	= 18
+pop.subpop.1.species.crossover-type = one
+pop.subpop.1.species.mutation-type	= reset
+pop.subpop.1.species.mutation-prob	= 0.1
+
+pop.subpop.1.species.min-gene	= 0.0
+pop.subpop.1.species.max-gene	= 20000
+
+## Segments
+#pop.subpop.1.species.segment.0.start = 0
+#pop.subpop.1.species.segment.1.start = 2
+#pop.subpop.1.species.segment.2.start = 8
+#
+#pop.subpop.1.species.segment.0.min-gene = 0.5
+#pop.subpop.1.species.segment.0.max-gene = 440
+#pop.subpop.1.species.segment.1.min-gene = 1
+#pop.subpop.1.species.segment.1.max-gene = 20000
+#pop.subpop.1.species.segment.2.min-gene = 0.0
+#pop.subpop.1.species.segment.2.max-gene = 10.0
+
+## Note that min-gene and max-gene are defined in the SPECIES, not in the INDIVIDUAL
+## Genes
+# Main Frequency
+pop.subpop.1.species.min-gene.0	 = 440
+pop.subpop.1.species.max-gene.0	 = 440
+# Main amplitude
+pop.subpop.1.species.min-gene.1	 = 0.0
+pop.subpop.1.species.max-gene.1	 = 1.0
+# DX7 Preset
+pop.subpop.1.species.min-gene.2	 = 0
+pop.subpop.1.species.max-gene.2	 = 31
+
+# Operator 2 On/Off Binary
+pop.subpop.1.species.min-gene.3	 = 0
+pop.subpop.1.species.max-gene.3	 = 1
+# Operator 3 On/Off Binary
+pop.subpop.1.species.min-gene.4	 = 0
+pop.subpop.1.species.max-gene.4	 = 1
+# Operator 4 On/Off Binary
+pop.subpop.1.species.min-gene.5	 = 0
+pop.subpop.1.species.max-gene.5	 = 1
+# Operator 5 On/Off Binary
+pop.subpop.1.species.min-gene.6	 = 0
+pop.subpop.1.species.max-gene.6	 = 1
+# Operator 6 On/Off Binary
+pop.subpop.1.species.min-gene.7	 = 0
+pop.subpop.1.species.max-gene.7	 = 1
+
+
+
+
+# Operator 2 Frequency
+pop.subpop.1.species.min-gene.3	 = 1
+pop.subpop.1.species.max-gene.3	 = 5
+# Operator 3 Frequency
+pop.subpop.1.species.min-gene.4	 = 1
+pop.subpop.1.species.max-gene.4	 = 5
+# Operator 4 Frequency
+pop.subpop.1.species.min-gene.5	 = 1
+pop.subpop.1.species.max-gene.5	 = 5
+# Operator 5 Frequency
+pop.subpop.1.species.min-gene.6	 = 1
+pop.subpop.1.species.max-gene.6	 = 5
+# Operator 6 Frequency
+pop.subpop.1.species.min-gene.7	 = 1
+pop.subpop.1.species.max-gene.7	 = 5
+
+# Operator 2 Frequency
+pop.subpop.1.species.min-gene.8	 = 1
+pop.subpop.1.species.max-gene.8	 = 20000
+# Operator 3 Frequency
+pop.subpop.1.species.min-gene.9	 = 1
+pop.subpop.1.species.max-gene.9	 = 20000
+# Operator 4 Frequency
+pop.subpop.1.species.min-gene.10 = 1
+pop.subpop.1.species.max-gene.10 = 20000
+# Operator 5 Frequency
+pop.subpop.1.species.min-gene.11 = 1
+pop.subpop.1.species.max-gene.11 = 20000
+# Operator 6 Frequency
+pop.subpop.1.species.min-gene.12 = 1
+pop.subpop.1.species.max-gene.12 = 20000
+
+
+
+
+
+# Operator 2 Amplitude
+pop.subpop.1.species.min-gene.13 = 0.0
+pop.subpop.1.species.max-gene.13 = 5.0
+# Operator 3 Amplitude
+pop.subpop.1.species.min-gene.14 = 0.0
+pop.subpop.1.species.max-gene.14 = 5.0
+# Operator 4 Amplitude
+pop.subpop.1.species.min-gene.15 = 0.0
+pop.subpop.1.species.max-gene.15 = 5.0
+# Operator 5 Amplitude
+pop.subpop.1.species.min-gene.16 = 0.0
+pop.subpop.1.species.max-gene.16 = 5.0
+# Operator 6 Amplitude
+pop.subpop.1.species.min-gene.17 = 0.0
+pop.subpop.1.species.max-gene.17 = 5.0
+
+pop.subpop.1.species.mutation-type.0    = integer-reset
+pop.subpop.1.species.mutation-type.2    = integer-reset
+pop.subpop.1.species.mutation-type.3    = integer-reset
+pop.subpop.1.species.mutation-type.4    = integer-reset
+pop.subpop.1.species.mutation-type.5    = integer-reset
+pop.subpop.1.species.mutation-type.6    = integer-reset
+pop.subpop.1.species.mutation-type.7    = integer-reset
+pop.subpop.1.species.mutation-type.8    = integer-reset
+pop.subpop.1.species.mutation-type.9    = integer-reset
+pop.subpop.1.species.mutation-type.10   = integer-reset
+pop.subpop.1.species.mutation-type.11   = integer-reset
+pop.subpop.1.species.mutation-type.12   = integer-reset

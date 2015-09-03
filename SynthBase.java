@@ -21,71 +21,55 @@ import java.io.PrintWriter;
 public class SynthBase extends Circuit {
 
     public SynthBase() {
+
+        lineOut = new LineOut();
+
     }
 
-    public float[] getWaveform(boolean realtime, Synthesizer synth, MixerMono mixer) {
+    public float[] getWaveform(Synthesizer synth, MixerMono mixer){
         FloatSample samples = new FloatSample((int) Math.floor(Evolve.lengthInS * 44100), 1);
-//        if (realtime) {
-//            try {
-//                File waveFile = new File("1Sawtooth440Hz-LP1000Hz.wav");
-//                WaveRecorder recorder = new WaveRecorder(synth, waveFile, 1);
-//                LineOut lineOut = new LineOut();
-//                synth.add(lineOut);
-//                mixer.output.connect(0, lineOut.input, 0);
-//                mixer.output.connect(0, lineOut.input, 1);
-//                mixer.output.connect(recorder.getInput());
-//                lineOut.start();
-//                recorder.start();
-//                Thread.sleep(Evolve.lengthInS * 1000);
-//                lineOut.stop();
-//                recorder.stop();
-//                recorder.close();
-//            } catch (InterruptedException ie) {
-//                ie.printStackTrace();
-//            } catch (FileNotFoundException fnfe) {
-//                fnfe.printStackTrace();
-//            } catch (IOException ioe) {
-//                ioe.printStackTrace();
-//            }
-//        } else {
+        boolean realtime = false;
+        if (realtime) {
+            try {
+                synth.add(lineOut);
+
+                mixer.output.connect(0, lineOut.input, 0);
+                mixer.output.connect(0, lineOut.input, 1);
+
+                synth.start();
+                lineOut.start();
+                Thread.sleep((long)(Evolve.lengthInS * 1000));
+                lineOut.stop();
+                mixer.output.disconnect(lineOut.input);
+                synth.stop();
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+        } else {
             try {
 
                 FixedRateMonoWriter writer = new FixedRateMonoWriter();
                 synth.add(writer);
+                synth.setRealTime(false);
                 mixer.output.connect(writer.input);
                 writer.dataQueue.queue(samples);
-                synth.setRealTime(false);
-                System.out.println("Start");
+
+                synth.start();
                 writer.start();
-                double time = synth.getCurrentTime();
-                synth.sleepUntil(time + Evolve.lengthInS + 1);
+                synth.sleepUntil(synth.getCurrentTime() + Evolve.lengthInS + 1);
                 writer.stop();
-                System.out.println("Stop");
+                synth.stop();
 
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
-//            } catch (IOException ioe) {
-//                ioe.printStackTrace();
             }
-                System.out.println("NumFrames = " + samples.getNumFrames());
                 candidateSamples = new float[samples.getNumFrames() - 1];
-                samples.read(1, candidateSamples, 0, candidateSamples.length);
-//                FileWriter write = new FileWriter("candidateOutput.txt", false);
-//                PrintWriter printLine = new PrintWriter(write);
-//                for (int i = 0; i < candidateSamples.length; i++) {
-//                    printLine.println(candidateSamples[i]);
-//                }
-//                printLine.close();
-//
-//                System.out.println(candidateSamples[44097]);
-//                System.out.println(candidateSamples[44098]);
+                samples.read(0, candidateSamples, 0, candidateSamples.length);
 
 
-
-//        }
+        }
         return candidateSamples;
     }
-
-    public double mainFreq, mainAmp;
+    private LineOut lineOut;
     public float[] candidateSamples;
 }
