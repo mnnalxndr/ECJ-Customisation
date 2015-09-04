@@ -149,38 +149,39 @@ pop.subpop.1.species.max-gene.7	 = 1
 
 
 
-
+## Operator Frequencies (Integer ratios)
 # Operator 2 Frequency
-pop.subpop.1.species.min-gene.3	 = 1
-pop.subpop.1.species.max-gene.3	 = 5
+pop.subpop.1.species.min-gene.8	    = 1
+pop.subpop.1.species.max-gene.8	    = 5
 # Operator 3 Frequency
-pop.subpop.1.species.min-gene.4	 = 1
-pop.subpop.1.species.max-gene.4	 = 5
+pop.subpop.1.species.min-gene.9	    = 1
+pop.subpop.1.species.max-gene.9 	= 5
 # Operator 4 Frequency
-pop.subpop.1.species.min-gene.5	 = 1
-pop.subpop.1.species.max-gene.5	 = 5
+pop.subpop.1.species.min-gene.10	= 1
+pop.subpop.1.species.max-gene.10	= 5
 # Operator 5 Frequency
-pop.subpop.1.species.min-gene.6	 = 1
-pop.subpop.1.species.max-gene.6	 = 5
+pop.subpop.1.species.min-gene.11	= 1
+pop.subpop.1.species.max-gene.11	= 5
 # Operator 6 Frequency
-pop.subpop.1.species.min-gene.7	 = 1
-pop.subpop.1.species.max-gene.7	 = 5
+pop.subpop.1.species.min-gene.12    = 1
+pop.subpop.1.species.max-gene.12	= 5
 
+## Operator Frequencies (Any frequency)
 # Operator 2 Frequency
-pop.subpop.1.species.min-gene.8	 = 1
-pop.subpop.1.species.max-gene.8	 = 20000
+pop.subpop.1.species.min-gene.8	    = 1
+pop.subpop.1.species.max-gene.8	    = 20000
 # Operator 3 Frequency
-pop.subpop.1.species.min-gene.9	 = 1
-pop.subpop.1.species.max-gene.9	 = 20000
+pop.subpop.1.species.min-gene.9	    = 1
+pop.subpop.1.species.max-gene.9	    = 20000
 # Operator 4 Frequency
-pop.subpop.1.species.min-gene.10 = 1
-pop.subpop.1.species.max-gene.10 = 20000
+pop.subpop.1.species.min-gene.10    = 1
+pop.subpop.1.species.max-gene.10    = 20000
 # Operator 5 Frequency
-pop.subpop.1.species.min-gene.11 = 1
-pop.subpop.1.species.max-gene.11 = 20000
+pop.subpop.1.species.min-gene.11    = 1
+pop.subpop.1.species.max-gene.11    = 20000
 # Operator 6 Frequency
-pop.subpop.1.species.min-gene.12 = 1
-pop.subpop.1.species.max-gene.12 = 20000
+pop.subpop.1.species.min-gene.12    = 1
+pop.subpop.1.species.max-gene.12    = 20000
 
 
 

@@ -52,7 +52,7 @@ public class FMSynth extends SynthBase {
         if (operator6On == 0)
             operator6Amp = 0;
 
-        boolean integers = true;
+        boolean integers = false;
 
         operator1.frequency.set(mainFrequency);
         operator1.amplitude.set(operator1Amp);
