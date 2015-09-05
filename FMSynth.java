@@ -2,11 +2,9 @@ package ec.app.project.v02.src;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
-import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.MixerMono;
 import com.jsyn.unitgen.SineOscillatorPhaseModulated;
 
-import java.lang.reflect.Method;
 
 /**
  * Created by alexmann on 14/08/2015.
@@ -18,20 +16,18 @@ public class FMSynth extends SynthBase {
         synth = JSyn.createSynthesizer();
         mixer = new MixerMono(6);
         this.add(mixer);
-
-
         this.add(operator1 = new SineOscillatorPhaseModulated());
         this.add(operator2 = new SineOscillatorPhaseModulated());
         this.add(operator3 = new SineOscillatorPhaseModulated());
         this.add(operator4 = new SineOscillatorPhaseModulated());
         this.add(operator5 = new SineOscillatorPhaseModulated());
         this.add(operator6 = new SineOscillatorPhaseModulated());
-
     }
-    public float[] makeWaveform (double mainFrequency, double operator1Amp, double preset,
-                                 double operator2On, double operator3On, double operator4On, double operator5On, double operator6On,
-                                 double operator2Freq, double operator3Freq, double operator4Freq, double operator5Freq, double operator6Freq,
-                                 double operator2Amp, double operator3Amp, double operator4Amp, double operator5Amp, double operator6Amp) {
+
+    public float[] getCandidateSamples(double mainFrequency, double operator1Amp, double preset,
+                                       double operator2On, double operator3On, double operator4On, double operator5On, double operator6On,
+                                       double operator2Freq, double operator3Freq, double operator4Freq, double operator5Freq, double operator6Freq,
+                                       double operator2Amp, double operator3Amp, double operator4Amp, double operator5Amp, double operator6Amp) {
 
         operator1.output.disconnectAll();
         operator2.output.disconnectAll();

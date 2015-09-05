@@ -29,9 +29,9 @@ public class TargetImport {
         long audioFileLength = targetFile.length();
         int frameSize = format.getFrameSize();
         float frameRate = format.getFrameRate();
-        float durationInSeconds = (audioFileLength  / (frameSize * frameRate));
+        float lengthInS = (audioFileLength  / (frameSize * frameRate));
 
-        return durationInSeconds;
+        return lengthInS;
     }
 
     public static float[] getTargetSamples(File targetFile) {
@@ -57,7 +57,6 @@ public class TargetImport {
         return targetSamples;
 
     }
-
 
     private static float[] targetSamples = null;
     private static short[] candidateSamples = null;

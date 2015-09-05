@@ -59,12 +59,12 @@ public class SubtractiveSynth extends SynthBase {
      * @param osc2Amp Amplitude of osc 2
      * @param osc3Amp Amplitude of osc 3
      */
-    public float[] makeWaveform(double frequency,
-                              double osc2On, double osc3On, double filterType,
-                              double osc1Shape, double osc2Shape, double osc3Shape,
-                              double osc2RelativeOctave, double osc3RelativeOctave,
-                              double filterCutoff, double filterQ,
-                              double osc1Amp, double osc2Amp, double osc3Amp) {
+    public float[] getCandidateSamples(double frequency,
+                                       double osc2On, double osc3On, double filterType,
+                                       double osc1Shape, double osc2Shape, double osc3Shape,
+                                       double osc2RelativeOctave, double osc3RelativeOctave,
+                                       double filterCutoff, double filterQ,
+                                       double osc1Amp, double osc2Amp, double osc3Amp) {
 
         sawOsc1.output.disconnectAll();
         sawOsc2.output.disconnectAll();
